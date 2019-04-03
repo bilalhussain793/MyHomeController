@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "827350457474",
+    "firebase_url": "https://smarthomecontroller-1371a.firebaseio.com",
+    "project_id": "smarthomecontroller-1371a",
+    "storage_bucket": "smarthomecontroller-1371a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827350457474:android:e9934c7325aa1d12",
+        "android_client_info": {
+          "package_name": "com.home.bilalhussain.myhomecontroller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827350457474-k4chi35ks33f3uc70dcc6iee3jrfhkqv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.home.bilalhussain.myhomecontroller",
+            "certificate_hash": "4a81221546ee5149900aff3e6cd151a528ec1d32"
+          }
+        },
+        {
+          "client_id": "827350457474-m9ekhdjfovb1hvjph13ai8c1mdq71n7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBge6aD7Td6HA32tIpKihOoEho6YugZSy4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827350457474-m9ekhdjfovb1hvjph13ai8c1mdq71n7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827350457474:android:efacbb81bad88bbb",
+        "android_client_info": {
+          "package_name": "com.iotlab86.bilalhussain.smarthomecontroller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827350457474-pcagoqte5164mr5jibob63570ffg8dqn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iotlab86.bilalhussain.smarthomecontroller",
+            "certificate_hash": "4a81221546ee5149900aff3e6cd151a528ec1d32"
+          }
+        },
+        {
+          "client_id": "827350457474-m9ekhdjfovb1hvjph13ai8c1mdq71n7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBge6aD7Td6HA32tIpKihOoEho6YugZSy4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827350457474-m9ekhdjfovb1hvjph13ai8c1mdq71n7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
