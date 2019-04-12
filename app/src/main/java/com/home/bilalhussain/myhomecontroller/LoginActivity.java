@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity  {
                     password.setError("can't be blank");
                 }
                 else{
-                    String url = "https://chat-d4245.firebaseio.com/users.json";
+                    String url = "https://smarthomecontroller-1371a.firebaseio.com/ID.json";
                     final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
                     pd.setMessage("Loading...");
                     pd.show();
@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity  {
                                     if(!obj.has(user)){
                                         Toast.makeText(LoginActivity.this, "user not found", Toast.LENGTH_LONG).show();
                                     }
-                                    else if(obj.getJSONObject(user).getString("password").equals(pass)){
+                                    else if(obj.getJSONObject(user).getString("Password").equals(pass)){
                                         UserDetails.username = user;
                                         UserDetails.password = pass;
                                         startActivity(new Intent(LoginActivity.this, DashBoard.class));
