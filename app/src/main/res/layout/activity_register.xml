@@ -8,6 +8,9 @@
     android:layout_margin="16dp"
     android:gravity="center"
     tools:context=".RegisterActivity">
+
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,10 +23,18 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/user_id"
+        android:inputType="text"
+        android:maxLines="1"
+        android:hint="Enter ID (Provided by admin)"
+        android:layout_marginBottom="10dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/username"
         android:inputType="text"
         android:maxLines="1"
-        android:hint="enter username"
+        android:hint="Enter UserName"
         android:layout_marginBottom="10dp"/>
 
     <EditText
@@ -32,7 +43,15 @@
         android:id="@+id/password"
         android:inputType="textPassword"
         android:maxLines="1"
-        android:hint="enter password"
+        android:hint="Enter Password"
+        android:layout_marginBottom="10dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_contact"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:hint="Enter Contact"
         android:layout_marginBottom="10dp"/>
 
     <Button
