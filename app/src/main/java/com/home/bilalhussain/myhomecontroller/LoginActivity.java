@@ -36,11 +36,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +65,7 @@ public class LoginActivity extends AppCompatActivity  {
     EditText p_id,p_password;
     ProgressDialog pd;
     CheckBox checkBox;
-
+    String user, pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,81 +80,88 @@ public class LoginActivity extends AppCompatActivity  {
         p_id=findViewById(R.id.p_id);
         p_password=findViewById(R.id.p_pass);
         checkBox=findViewById(R.id.chk);
-        signin.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                validlogin(p_id,p_password);
+        TextView signup=findViewById(R.id.signup);
+
+                validlogin(p_id,p_password,signin,signup);
 
               //  startActivity(new Intent(LoginActivity.this,DashBoard.class));
 
-            }
-        });
 
 
 
 
 
     }
-    public void validlogin(final EditText id, final EditText password){
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("ID/"+id.getText().toString());
-        pd=new ProgressDialog(LoginActivity.this);
-        pd.setTitle("Loading....");
-        pd.show();
+    public void validlogin(final EditText id, final EditText password,Button loginButton,TextView registerUser){
 
-        // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
+
+        registerUser.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                final String phn = dataSnapshot.child("ID").getValue(String.class);
-                final String pass = dataSnapshot.child("Password").getValue(String.class);
-
-
-
-                    Toast.makeText(LoginActivity.this, "Login here", Toast.LENGTH_SHORT).show();
-                if (id.getText().toString().equals(phn)) {
-
-                    if (password.getText().toString().equals(pass)) {
-
-                        if (checkBox.isEnabled()) {
-                            SharedPreferences.Editor editor = getSharedPreferences("LOGIN", MODE_PRIVATE).edit();
-                            editor.putInt("flg", 2);
-                            editor.putString("p_id", id.getText().toString());
-                            editor.apply();
-                            startActivity(new Intent(LoginActivity.this, DashBoard.class));
-                            pd.dismiss();
-                        } else {
-                            SharedPreferences.Editor editor = getSharedPreferences("LOGIN", MODE_PRIVATE).edit();
-                            editor.putString("p_id", id.getText().toString());
-                            editor.apply();
-
-                            startActivity(new Intent(LoginActivity.this, DashBoard.class));
-                            pd.dismiss();
-                        }
-
-                    } else {
-
-                        password.setError("Wrong Password");
-                    }
-
-                } else {
-                    id.setError("Invalid Contact");
-                }
-
-
-                }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
-                id.setError("Invalid User");
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
 
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user = id.getText().toString();
+                pass = password.getText().toString();
+
+                if(user.equals("")){
+                    id.setError("can't be blank");
+                }
+                else if(pass.equals("")){
+                    password.setError("can't be blank");
+                }
+                else{
+                    String url = "https://chat-d4245.firebaseio.com/users.json";
+                    final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
+                    pd.setMessage("Loading...");
+                    pd.show();
+
+                    StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+                        @Override
+                        public void onResponse(String s) {
+                            if(s.equals("null")){
+                                Toast.makeText(LoginActivity.this, "user not found", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                try {
+                                    JSONObject obj = new JSONObject(s);
+
+                                    if(!obj.has(user)){
+                                        Toast.makeText(LoginActivity.this, "user not found", Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(obj.getJSONObject(user).getString("password").equals(pass)){
+                                        UserDetails.username = user;
+                                        UserDetails.password = pass;
+                                        startActivity(new Intent(LoginActivity.this, DashBoard.class));
+                                    }
+                                    else {
+                                        Toast.makeText(LoginActivity.this, "incorrect password", Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            pd.dismiss();
+                        }
+                    },new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            System.out.println("" + volleyError);
+                            pd.dismiss();
+                        }
+                    });
+
+                    RequestQueue rQueue = Volley.newRequestQueue(LoginActivity.this);
+                    rQueue.add(request);
+                }
+
+            }
+        });
     }
 }
 
