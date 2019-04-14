@@ -9,15 +9,41 @@
     android:padding="10dp"
     tools:context=".LoginActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
         android:layout_gravity="center"
-        android:text="Smart Home Controller"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        android:layout_margin="5dp"
-        android:textColor="@color/textcolor"/>
+        android:background="@color/colorPrimaryDark">
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:cardCornerRadius="10dp"
+            android:layout_marginLeft="2dp"
+            app:cardBackgroundColor="@color/colorPrimaryDark">
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_margin="2dp"
+                android:layout_gravity="center"
+                android:src="@drawable/smarthome"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Smart Home Controller"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:textColor="#fff"/>
+    </LinearLayout>
+
+
+
 
     <ScrollView
         android:id="@+id/login_form"
@@ -57,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
+                android:focusableInTouchMode="true"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -74,6 +101,7 @@
                 android:hint="@string/prompt_password"
                 android:imeActionId="6"
                 android:imeActionLabel="@string/action_sign_in_short"
+                android:focusableInTouchMode="true"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -91,17 +119,18 @@
 
         <Button
             android:id="@+id/email_sign_in_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:backgroundTint="@color/colorPrimaryDark"
             android:text="@string/action_sign_in"
+            android:layout_gravity="right"
             android:textColor="@color/btntext"
             android:textStyle="bold" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:background="#09000000"
             android:orientation="horizontal">
 
@@ -138,10 +167,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="10dp"
             android:textSize="18dp"
             android:id="@+id/signup"
-            android:text="SignUp for a new member"
-            android:textColor="#00a2ff"/>
+            android:text="SIGN UP"
+            android:padding="5dp"
+            android:background="#0a000000"
+            android:textColor="@color/textcolor"/>
 
 </LinearLayout>
