@@ -69,4 +69,5 @@
         android:gravity="center"
         android:textColor="@color/textcolor"
         android:id="@+id/login"/>
+
 </LinearLayout>

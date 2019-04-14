@@ -5,4 +5,7 @@
     <color name="colorAccent">#8b2cc6</color>
     <color name="btntext">#ffffff</color>
     <color name="textcolor">#340054</color>
+    <color name="Green">#11800f</color>
+    <color name="Blue">#00076e</color>
+    <color name="grey">#6b6b6b</color>
 </resources>

@@ -1,5 +1,7 @@
 package com.home.bilalhussain.myhomecontroller;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DashBoard extends AppCompatActivity {
 
     Button light,fan,swt,door;
-    TextView tv_light,tv_fan,tv_door,tv_switch;
+    TextView tv_light,tv_fan,tv_door,tv_switch,tv_name;
 
     int lt,fn,sw,dr;
 
@@ -24,6 +26,38 @@ public class DashBoard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
+
+        tv_name=findViewById(R.id.tv);
+
+        String u= getIntent().getStringExtra("user_id");
+        if (u.equals("")||u.length()==0){
+            startActivity(new Intent(DashBoard.this,LoginActivity.class));
+        }else {
+            FirebaseDatabase database1 = FirebaseDatabase.getInstance();
+            DatabaseReference myRef2 = database1.getReference("ID/" + u);
+// Read from the database
+            myRef2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    String value = dataSnapshot.child("Name").getValue(String.class);
+                    // Log.d(TAG, "Value is: " + value);
+                    tv_name.setText("Welcome Mr. " + value);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    // Log.w(TAG, "Failed to read value.", error.toException());
+                }
+            });
+
+
+        }
+
+
+
 
         light=findViewById(R.id.bt_light);
         fan=findViewById(R.id.bt_fan);
