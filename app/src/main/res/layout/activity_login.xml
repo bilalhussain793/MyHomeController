@@ -6,49 +6,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:background="#ededed"
     android:padding="10dp"
     tools:context=".LoginActivity">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:background="@color/colorPrimaryDark">
-        <android.support.v7.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
             android:layout_gravity="center"
-            app:cardCornerRadius="10dp"
-            android:layout_marginLeft="2dp"
-            app:cardBackgroundColor="@color/colorPrimaryDark">
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_margin="2dp"
+            android:background="@color/colorPrimaryDark">
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/smarthome"/>
-        </android.support.v7.widget.CardView>
+                app:cardCornerRadius="10dp"
+                android:layout_marginLeft="2dp"
+                app:cardBackgroundColor="@color/colorPrimaryDark">
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="2dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/sm2"
+                    android:tint="#fff"/>
+            </android.support.v7.widget.CardView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Smart Home Controller"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            android:layout_margin="5dp"
-            android:textColor="#fff"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Smart Home Controller"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:textColor="#fff"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 
 
 
-    <ScrollView
+
+    <LinearLayout
         android:id="@+id/login_form"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginTop="50dp">
 
 <android.support.v7.widget.CardView
@@ -81,9 +92,10 @@
             <EditText
                 android:id="@+id/p_id"
                 android:layout_width="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
-                android:focusableInTouchMode="true"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -99,9 +111,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:imeActionId="6"
                 android:imeActionLabel="@string/action_sign_in_short"
-                android:focusableInTouchMode="true"
+
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -114,6 +128,8 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/textcolor"
             android:text="Keep me signed in"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:shadowColor="@color/colorPrimaryDark"
             android:id="@+id/chk"/>
 
@@ -131,7 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="#09000000"
+            android:background="#ededed"
             android:orientation="horizontal">
 
             <TextView
@@ -161,7 +177,7 @@
 
 </android.support.v7.widget.CardView>
 
-    </ScrollView>
+    </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"

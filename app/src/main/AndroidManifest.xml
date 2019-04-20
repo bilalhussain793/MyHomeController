@@ -14,9 +14,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/sm2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/sm2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Splash">
@@ -28,6 +28,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/title_activity_login" />
         <activity android:name=".DashBoard" />
         <activity android:name=".RegisterActivity"></activity>

@@ -1,7 +1,9 @@
 package com.home.bilalhussain.myhomecontroller;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,9 @@ public class DashBoard extends AppCompatActivity {
 
     int lt,fn,sw,dr;
 
+    Dialog d;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,13 +34,18 @@ public class DashBoard extends AppCompatActivity {
 
         tv_name=findViewById(R.id.tv);
 
+        d=new Dialog(DashBoard.this);
+        d.setContentView(R.layout.door_layout);
+
         String u= getIntent().getStringExtra("user_id");
         if (u.equals("")||u.length()==0){
             startActivity(new Intent(DashBoard.this,LoginActivity.class));
         }else {
             FirebaseDatabase database1 = FirebaseDatabase.getInstance();
             DatabaseReference myRef2 = database1.getReference("ID/" + u);
+
 // Read from the database
+
             myRef2.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -136,6 +146,7 @@ public class DashBoard extends AppCompatActivity {
         door.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                d.show();
                 if(dr==1){
                     myRef.child("dr").setValue(0);
                 }else {
@@ -145,6 +156,24 @@ public class DashBoard extends AppCompatActivity {
             }
         });
 
+        Button cam_btn=findViewById(R.id.cam);
+        cam_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getPackageManager().getLaunchIntentForPackage("com.macrovideo.v380");
+                if (intent != null) {
+                    // We found the activity now start the activity
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else {
+                    // Bring user to the market or let them choose an app?
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setData(Uri.parse("market://details?id=" + "com.macrovideo.v380"));
+                    startActivity(intent);
+                }
+            }
+        });
 
 
     }
