@@ -1,21 +1,36 @@
 package com.home.bilalhussain.myhomecontroller;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DashBoard extends AppCompatActivity {
 
@@ -25,6 +40,7 @@ public class DashBoard extends AppCompatActivity {
     int lt,fn,sw,dr;
 
     Dialog d;
+    EditText et_pin;
 
 
     @Override
@@ -36,6 +52,8 @@ public class DashBoard extends AppCompatActivity {
 
         d=new Dialog(DashBoard.this);
         d.setContentView(R.layout.door_layout);
+        et_pin=d.findViewById(R.id.et_pin);
+
 
         String u= getIntent().getStringExtra("user_id");
         if (u.equals("")||u.length()==0){
@@ -146,13 +164,31 @@ public class DashBoard extends AppCompatActivity {
         door.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                d.show();
-                if(dr==1){
-                    myRef.child("dr").setValue(0);
-                }else {
-                    myRef.child("dr").setValue(1);
-                }
 
+                d.show();
+
+            }
+        });
+        et_pin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+              //  Toast.makeText(DashBoard.this, ""+editable.toString(), Toast.LENGTH_SHORT).show();
+                if(editable.toString().length()<4){
+                    et_pin.setTextColor(Color.parseColor("#838383"));
+                }else {
+                    et_pin.setTextColor(Color.parseColor("#0088ff"));
+                    getPC(et_pin.getText().toString());
+                }
             }
         });
 
@@ -176,5 +212,63 @@ public class DashBoard extends AppCompatActivity {
         });
 
 
+    }
+    private void getPC(final String pass){
+        String url = "https://smarthomecontroller-1371a.firebaseio.com/info.json";
+        final ProgressDialog pd = new ProgressDialog(DashBoard.this);
+        pd.setMessage("Loading...");
+        pd.show();
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String s) {
+                if(s.equals("null")){
+                        Toast.makeText(DashBoard.this, "user not found", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    try {
+                        JSONObject obj = new JSONObject(s);
+
+                  //      Toast.makeText(DashBoard.this, ""+obj.getString("pin"), Toast.LENGTH_SHORT).show();
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        final DatabaseReference myRef = database.getReference("Appliances");
+
+                        if (obj.getString("pin").equals(pass)){
+
+
+                            if(dr==1){
+                                myRef.child("dr").setValue(0);
+                                Toast.makeText(DashBoard.this, "Door is Locked", Toast.LENGTH_SHORT).show();
+
+                            }else {
+                                myRef.child("dr").setValue(1);
+                                Toast.makeText(DashBoard.this, "Door has been Unlocked", Toast.LENGTH_SHORT).show();
+                            }
+                            et_pin.setText("");
+                            d.dismiss();
+
+                        }
+                        else{
+                            et_pin.setTextColor(Color.parseColor("#ff0000"));
+                            Toast.makeText(DashBoard.this, "Wrong PIN", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                pd.dismiss();
+            }
+        },new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                System.out.println("" + volleyError);
+                pd.dismiss();
+            }
+        });
+
+        RequestQueue rQueue = Volley.newRequestQueue(DashBoard.this);
+        rQueue.add(request);
     }
 }
