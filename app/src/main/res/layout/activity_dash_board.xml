@@ -180,7 +180,7 @@
     </RelativeLayout>
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -212,10 +212,11 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         app:cardCornerRadius="10dp"
         android:layout_gravity="center">
         <LinearLayout
@@ -234,16 +235,53 @@
                 android:background="@drawable/button_rect"
                 android:text="Door"/>
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="25dp"
                 android:textSize="16dp"
                 android:id="@+id/tv_door"
                 android:gravity="center"
                 android:textColor="#0090ff"/>
 
+
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/notifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="-1dp"
+                android:background="@drawable/button_rect"
+                android:drawablePadding="1dp"
+                android:text="Send Notification"
+                android:textColor="#fff"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt_sms"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_rect"
+        android:text="SMS Commands"/>
 
 </LinearLayout>

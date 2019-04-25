@@ -1,11 +1,18 @@
 package com.home.bilalhussain.myhomecontroller;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,12 +41,12 @@ import org.json.JSONObject;
 
 public class DashBoard extends AppCompatActivity {
 
-    Button light,fan,swt,door;
-    TextView tv_light,tv_fan,tv_door,tv_switch,tv_name;
+    Button light,fan,swt,door,nott;
+    TextView tv_light,tv_fan,tv_door,tv_switch,tv_name,bt_smss;
 
     int lt,fn,sw,dr;
 
-    Dialog d;
+    Dialog d,d_a,dct;
     EditText et_pin;
 
 
@@ -53,7 +60,87 @@ public class DashBoard extends AppCompatActivity {
         d=new Dialog(DashBoard.this);
         d.setContentView(R.layout.door_layout);
         et_pin=d.findViewById(R.id.et_pin);
+        bt_smss=findViewById(R.id.bt_sms);
+        nott=findViewById(R.id.notifi);
 
+        d_a=new Dialog(DashBoard.this);
+        d_a.setContentView(R.layout.alert_layout);
+        final TextView tva=d_a.findViewById(R.id.tvh);
+        final TextView tvs=d_a.findViewById(R.id.tvt);
+
+
+        FirebaseDatabase databa = FirebaseDatabase.getInstance();
+        final DatabaseReference myRefa1 = databa.getReference("notify");
+
+        dct=new Dialog(DashBoard.this);
+        dct.setContentView(R.layout.noti_layout);
+        final EditText tee=dct.findViewById(R.id.et_ptx);
+        final Button btt=dct.findViewById(R.id.et_bt);
+       // bt_smss=findViewById(R.id.bt_sms);
+        nott.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dct.show();
+            }
+        });
+
+        btt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(tee.getText().toString().length()==0){
+                    Toast.makeText(DashBoard.this, "Empty", Toast.LENGTH_SHORT).show();
+                    tee.setError("Empty!");
+                }else{
+             myRefa1.setValue(tee.getText().toString());
+                    Toast.makeText(DashBoard.this, "msg sent", Toast.LENGTH_SHORT).show();
+                    dct.dismiss();
+                }
+            }
+        });
+        FirebaseDatabase database1a = FirebaseDatabase.getInstance();
+        DatabaseReference myRefaa = database1a.getReference("Appliances");
+        myRefaa.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                int value = dataSnapshot.child("flame").getValue(Integer.class);
+                int value1 = dataSnapshot.child("smoke").getValue(Integer.class);
+                int value2 = dataSnapshot.child("human").getValue(Integer.class);
+
+                if(value==1){
+
+                    tva.setText("Alert!");
+                    tvs.setText("There is fire be careful about it.");
+                    d_a.show();
+                }else if(value1==1){
+                    d_a.show();
+                    tva.setText("Alert!");
+                    tvs.setText("Environment is not clean\nGas detected\nEmergency...");
+                }else if(value2==1){
+                    d_a.show();
+                    tva.setText("Person Detected");
+                    tvs.setText("There is someone in the house");
+                }else{
+                    d_a.dismiss();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+               // Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+
+        bt_smss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DashBoard.this,Sms.class));
+            }
+        });
 
         String u= getIntent().getStringExtra("user_id");
         if (u.equals("")||u.length()==0){
@@ -109,6 +196,7 @@ public class DashBoard extends AppCompatActivity {
                 fn = dataSnapshot.child("fan").getValue(Integer.class);
                 sw = dataSnapshot.child("switch").getValue(Integer.class);
                 dr = dataSnapshot.child("dr").getValue(Integer.class);
+                int flame=dataSnapshot.child("flame").getValue(Integer.class);
                // Log.d(TAG, "Value is: " + value);
 
                     tv_light.setText(""+lt);
@@ -118,7 +206,12 @@ public class DashBoard extends AppCompatActivity {
                     tv_switch.setText(""+sw);
 
                     tv_door.setText(""+dr);
-
+                    if(flame==1){
+                        notification(flame);
+                    }
+                    else {
+                        notification(0);
+                    }
             }
 
             @Override
@@ -271,4 +364,25 @@ public class DashBoard extends AppCompatActivity {
         RequestQueue rQueue = Volley.newRequestQueue(DashBoard.this);
         rQueue.add(request);
     }
+
+        public void notification(int i){
+
+            Intent intent = new Intent(this, DashBoard.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,0);
+
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(DashBoard.this)
+                            .setSmallIcon(R.drawable.sm2)
+                            .setContentTitle("Notification Title")
+                            .setContentText("Notification "+i)
+                            .setContentIntent(pendingIntent );
+            mBuilder.setPriority(1);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0, mBuilder.build());
+
+
+
+
+        }
+
 }

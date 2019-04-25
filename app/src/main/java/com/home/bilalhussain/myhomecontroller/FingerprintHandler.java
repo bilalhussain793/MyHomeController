@@ -95,7 +95,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
             }
             context.startActivity(new Intent(context, DashBoard.class).putExtra("user_id",u));
-            ((Activity) context).finish();
+           // ((Activity) context).finish();
 
         }
     }

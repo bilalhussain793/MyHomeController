@@ -210,6 +210,8 @@ public class LoginActivity extends AppCompatActivity  {
                                             Toast.makeText(LoginActivity.this, "Successfully Enabled\n" +
                                                     "Now you can logged in with your finger print id", Toast.LENGTH_SHORT).show();
 
+                                            ublock.setText("Use FingerPrint ID");
+
                                         }
                                         else {
                                             Toast.makeText(LoginActivity.this, "incorrect password", Toast.LENGTH_LONG).show();
